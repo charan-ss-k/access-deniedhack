@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a73e8;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #1557b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Create New Form</h1>
+        <form method="POST">
+            <input type="text" name="title" placeholder="Form Title" required>
+            <div id="questions">
+                <div class="question">
+                    <input type="text" name="question1" placeholder="Question" required>
+                    <select name="type1">
+                        <option value="text">Short Answer</option>
+                        <option value="long_text">Paragraph</option>
+                        <option value="mcq">Multiple Choice</option>
+                        <option value="checkbox">Checkboxes</option>
+                    </select>
+                    <input type="text" name="options1" placeholder="Options (comma-separated)">
+                </div>
+            </div>
+            <button type="button" onclick="addQuestion()">Add Question</button>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+    let questionCount = 1;
+    function addQuestion() {
+        questionCount++;
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.innerHTML = `
+            <input type="text" name="question${questionCount}" placeholder="Question" required>
+            <select name="type${questionCount}">
+                <option value="text">Short Answer</option>
+                <option value="long_text">Paragraph</option>
+                <option value="mcq">Multiple Choice</option>
+                <option value="checkbox">Checkboxes</option>
+            </select>
+            <input type="text" name="options${questionCount}" placeholder="Options (comma-separated)">
+        `;
+        document.getElementById('questions').appendChild(div);
+    }
+    </script>
+</body>
+</html>

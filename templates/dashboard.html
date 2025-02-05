@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 30px;
+        }
+
+        .nav-links {
+            margin: 20px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1a73e8;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+
+        a:hover {
+            background-color: #e8f0fe;
+        }
+
+        .create-btn {
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 20px 0;
+        }
+
+        .create-btn:hover {
+            background-color: #1557b0;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #f8f9fa;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .shareable-link {
+            color: #666;
+            font-size: 0.9em;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome {{ current_user.username }}</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+        <h2>Your Forms</h2>
+        <a href="{{ url_for('create_form') }}" class="create-btn">Create New Form</a>
+        <ul>
+        {% for form in forms %}
+            <li>
+                <span>{{ form.title }}</span>
+                <div>
+                    <span class="shareable-link">Shareable link: {{ url_for('public_form', form_id=form.id, _external=True) }}</span>
+                    <a href="{{ url_for('view_form', form_id=form.id) }}">View Form</a>
+                    <a href="{{ url_for('view_responses', form_id=form.id) }}">Responses</a>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ form.title }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+
+        .radio-option, .checkbox-option {
+            margin: 10px 0;
+        }
+
+        button[type="submit"] {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #1557b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ form.title }}</h1>
+        <form method="POST">
+            {% for question in form.questions %}
+            <div class="question">
+                <h3>{{ question.content }}</h3>
+                {% if question.question_type == 'text' %}
+                    <input type="text" name="q{{ question.id }}" required>
+                {% elif question.question_type == 'long_text' %}
+                    <textarea name="q{{ question.id }}" required></textarea>
+                {% elif question.question_type == 'mcq' %}
+                    {% for option in question.options.split(',') %}
+                    <div class="radio-option">
+                        <input type="radio" name="q{{ question.id }}" value="{{ option.strip() }}" required>
+                        {{ option.strip() }}
+                    </div>
+                    {% endfor %}
+                {% elif question.question_type == 'checkbox' %}
+                    {% for option in question.options.split(',') %}
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q{{ question.id }}" value="{{ option.strip() }}">
+                        {{ option.strip() }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

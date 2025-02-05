@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Responses</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1a73e8;
+            padding: 8px 15px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        a:hover {
+            background-color: #e8f0fe;
+        }
+
+        .response {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+
+        .response h3 {
+            margin-top: 0;
+        }
+
+        .response p {
+            margin: 5px 0;
+        }
+
+        .response div {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Responses for {{ form.title }}</h1>
+        <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+        {% for response in form.responses %}
+        <div class="response">
+            <h3>Response #{{ loop.index }}</h3>
+            <p>Submitted by: 
+                {% if response.user %}
+                    {{ response.user.username }}
+                {% else %}
+                    Anonymous
+                {% endif %}
+            </p>
+            {% for answer in response.answers %}
+                <div>
+                    <strong>{{ answer.question.content }}:</strong>
+                    {{ answer.content }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
